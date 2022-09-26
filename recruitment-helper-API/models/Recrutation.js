@@ -6,6 +6,7 @@ const Recrutation = dbContext.define('recrutation', {
         type: Sequelize.INTEGER,
         allowNull: false,
          autoIncrement: true,
+         primaryKey: true
     },
     externalId: {
         type: Sequelize.STRING,

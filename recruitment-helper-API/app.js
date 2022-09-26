@@ -26,4 +26,6 @@ app.use('/recrutations', require('./routes/recrutations'));
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, console.log(`Server started on localhost:${PORT}`));
+app.listen(PORT, () => {  
+  console.log(`Server started on localhost:${PORT}`)
+} );
