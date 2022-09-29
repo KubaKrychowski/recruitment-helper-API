@@ -7,12 +7,6 @@ router.post('/', async (req, res, err) => {
     try {
         await dbContext.sync();
         
-        if (!req.body.externalId) {
-            res.status(400).send({
-                message: 'Bad request'
-            })
-        }
-
         const recrutation = {
             companyName: req.body.companyName,
             companyDescription: req.body.companyDescription,
@@ -67,8 +61,6 @@ router.get('/migrate', async (req, res, err) => {
             error: 'Database Error'
         })
     }
-
-
 });
 
 module.exports = router;
