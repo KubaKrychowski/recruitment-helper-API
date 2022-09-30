@@ -26,7 +26,7 @@ const User = dbContext.define('user', {
     },
     token: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
 })
 

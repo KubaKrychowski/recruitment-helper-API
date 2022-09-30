@@ -16,7 +16,7 @@ router.post('/register', async (req, res) => {
             res.status(400).send("Bad Request");
         }
 
-        dbContext.sync();
+        dbContext.sync({ alter: true });
 
         const oldUser = await User.findOne({ where: { email } });
 
@@ -29,7 +29,7 @@ router.post('/register', async (req, res) => {
         const user = await User.create({
             externalId: v4(),
             login,
-            email,
+            email: email.toLowerCase(),
             password: encryptedPassword,
         });
         let jwtSecretKey = `${process.env.JWT_SECRET_KEY}`
@@ -51,8 +51,6 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login',async (req, res) => {
-
-
     try {
         const { email, password } = req.body;
 
@@ -72,7 +70,7 @@ router.post('/login',async (req, res) => {
               );
             
               user.token = token;
-              res.status(200).json(user);
+              res.status(200).json(user.token);
         } else {
             res.status(400).send("Invalid Credentials");
         }

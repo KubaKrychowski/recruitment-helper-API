@@ -2,7 +2,7 @@ const express = require('express');
 const dbContext = require('../config/db-context');
 const Recrutation = require('../models/recrutation');
 const router = express.Router();
-
+const auth = require("../middleware/auth");
 router.post('/', async (req, res, err) => {
     try {
         await dbContext.sync();
@@ -35,7 +35,7 @@ router.post('/', async (req, res, err) => {
     }
 });
 
-router.get('/', async (req, res, err) => {
+router.get('/',auth, async (req, res, err) => {
     try {
         await dbContext.sync();
         const result = await Recrutation.findAll();
