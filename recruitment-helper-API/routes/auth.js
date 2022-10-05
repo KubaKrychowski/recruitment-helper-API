@@ -68,9 +68,17 @@ router.post('/login',async (req, res) => {
                   expiresIn: "2h",
                 }
               );
-            
+                
               user.token = token;
-              res.status(200).json(user.token);
+              await user.save();
+
+              const result = {
+                username: user.login,
+                externalId: user.externalId,
+                token: token,
+              };
+
+              res.status(200).json(result);
         } else {
             res.status(400).send("Invalid Credentials");
         }
