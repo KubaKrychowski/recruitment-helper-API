@@ -95,12 +95,13 @@ router.get('/login/:token', async (req, res) => {
         if (!user) {
             res.status(400).send("Invalid Credentials");
         }
-
+        let result;
         jwt.verify(req.params.token, `${process.env.JWT_SECRET_KEY}`, async (err, veryfiedToken) => {
             if (err) {
-                res.status(401).send(err.message);
+                res.status(200).json({error: err.message});
+                return;
             }
-            const result = {
+             result = {
                 username: user.login,
                 externalId: user.externalId,
                 token: user.token,
