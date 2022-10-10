@@ -12,6 +12,10 @@ const Recrutation = dbContext.define('recrutation', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    userExternalId: {
+        type: Sequelize.STRING,
+        allowNull: false 
+    },
     companyName: {
         type: Sequelize.STRING,
         allowNull: false
@@ -69,7 +73,7 @@ const Recrutation = dbContext.define('recrutation', {
         allowNull: false
     },
     comments: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: true
     },
 })

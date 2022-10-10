@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 const auth = require("./middleware/auth");
-
+const syncDb = require("./middleware/syncDb");
 require("dotenv").config();
 
 dbContext.authenticate()
@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(jsonParser);
 app.options('*', cors())
 app.use(cors());
-
+app.use(syncDb);
 app.listen(PORT, () => {
   console.log(`Server started on localhost:${PORT}`)
 });

@@ -1,11 +1,7 @@
 const express = require('express');
-const dbContext = require('../config/db-context');
 const User = require('../models/user');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { v4 } = require('uuid');
-const { request } = require('express');
 require("dotenv").config();
 
 router.get('/', async (req, res) => {

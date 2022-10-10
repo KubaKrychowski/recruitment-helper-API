@@ -3,10 +3,11 @@ const dbContext = require('../config/db-context');
 const Recrutation = require('../models/recrutation');
 const router = express.Router();
 const auth = require("../middleware/auth");
+const syncDb = require('../middleware/syncDb');
 router.post('/', async (req, res, err) => {
     try {
         await dbContext.sync();
-        
+
         const recrutation = {
             companyName: req.body.companyName,
             companyDescription: req.body.companyDescription,
@@ -17,12 +18,13 @@ router.post('/', async (req, res, err) => {
             workLanguage: req.body.workLang,
             recrutationLanguage: req.body.recrutationLanguage,
             meetingDateAndHour: req.body.meetingDateAndHour,
-            isSalaryRanged: req.body.rangedSalary,
+            isSalaryRanged: !!req.body.rangedSalary,
             minSalary: req.body.minSalary,
             maxSalary: req.body.maxSalary,
             employmentType: req.body.employmentType,
             comments: req.body.comments,
-            externalId: req.body.externalId
+            externalId: req.body.externalId,
+            userExternalId: req.body.userExternalId,
         }
 
         const result = await Recrutation.create(recrutation);
@@ -35,10 +37,35 @@ router.post('/', async (req, res, err) => {
     }
 });
 
-router.get('/',auth, async (req, res, err) => {
+router.get('/:userExternalId', auth, async (req, res) => {
     try {
-        await dbContext.sync();
+        const recrutations = await Recrutation.findAll(
+            { where: 
+                { userExternalId: req.params.userExternalId } });
+
+        if(!recrutations){
+            res.status(404).json({
+                error: 'not found'
+            })
+        };
+
+        res.status(200).json({
+            message: recrutations
+        });
+    } catch (err) {
+        console.log(err);
+    }
+})
+
+router.get('/', auth, syncDb, async (req, res, err) => {
+    try {
         const result = await Recrutation.findAll();
+
+        if(!result){
+            res.status(404).json({
+                err: 'not found'
+            });
+        }
 
         res.status(200).send({
             message: result
