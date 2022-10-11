@@ -57,6 +57,24 @@ router.get('/:userExternalId', auth, async (req, res) => {
     }
 })
 
+router.delete('/:recrutationExternalId', auth, syncDb, async (req,res) => {
+    try {
+        await Recrutation.destroy({
+            where: {
+                externalId: req.params.recrutationExternalId
+            }
+        });
+
+        res.status(200).send({
+            message: 'Recrutation successfuly deleted'
+        });
+    } catch (err) {
+        res.status(err.status).json({
+            error: err
+        })
+    }
+}); 
+
 router.get('/', auth, syncDb, async (req, res, err) => {
     try {
         const result = await Recrutation.findAll();
