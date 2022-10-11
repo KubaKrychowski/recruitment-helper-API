@@ -9,7 +9,6 @@ const cors = require('cors');
 const auth = require("./middleware/auth");
 const syncDb = require("./middleware/syncDb");
 require("dotenv").config();
-
 dbContext.authenticate()
   .then(() => {
     console.log(`db connected`)

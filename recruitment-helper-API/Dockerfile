@@ -1,6 +1,7 @@
-FROM node:16
+FROM node:latest
 WORKDIR /app
 COPY package.json /app
 RUN npm install
-COPY . /app
-CMD [ "npm", "start" ]
+COPY . .
+EXPOSE 3000
+CMD [ "npm", "run", "start-dev" ] 

@@ -1,6 +1,6 @@
 const express = require('express');
 const dbContext = require('../config/db-context');
-const Recrutation = require('../models/recrutation');
+const Recrutation = require('../models/Recrutation');
 const router = express.Router();
 const auth = require("../middleware/auth");
 const syncDb = require('../middleware/syncDb');
@@ -37,7 +37,7 @@ router.post('/', async (req, res, err) => {
     }
 });
 
-router.get('/:userExternalId', auth, async (req, res) => {
+router.get('/:userExternalId', auth,syncDb, async (req, res) => {
     try {
         const recrutations = await Recrutation.findAll(
             { where: 
